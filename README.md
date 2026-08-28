@@ -8,7 +8,7 @@ This bot intelligently scans the network for OLT clients with critical optical s
 
 ## ✨ Key Features
 
-- **Optical Signal Monitoring:** Automatically flags clients with `RX >= -16` or `RX <= -26`, and `TX < -27`.
+- **Optical Signal Monitoring:** Automatically flags clients with `RX >= -15` or `RX <= -27`, and `TX < -27`.
 - **Smart OS Filtering:** 
   - Skips clients with active support tickets to prevent double-dispatching.
   - Whitelists specific OS subjects (e.g., 67, 118, 119, 18, 101, 127) and adds them to the sheet with an observation.
