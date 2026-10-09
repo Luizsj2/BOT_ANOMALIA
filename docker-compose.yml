@@ -1,0 +1,27 @@
+services:
+  bot-anomalias:
+    build: .
+    container_name: bot-anomalias
+    restart: unless-stopped
+    # Bridge padrão do Docker: não cria rede nova. Rede nova pode sortear 172.31.x
+    # e derrubar a rota das OLTs 172.31.36.x em servidor sem daemon.json corrigido.
+    network_mode: bridge
+    environment:
+      TOKEN_IXC: ${TOKEN_IXC:?Defina TOKEN_IXC no arquivo .env}
+      NOME_PLANILHA: ${NOME_PLANILHA:-Anomalias Fibra}
+      INTERVALO_MINUTOS: ${INTERVALO_MINUTOS:-30}
+      ARQUIVO_CREDENCIAIS: /run/secrets/google_credenciais
+      # O bot grava datetime.now() na planilha; sem isso a hora sai em UTC.
+      TZ: America/Sao_Paulo
+      PYTHONUNBUFFERED: "1"
+    secrets:
+      - google_credenciais
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+secrets:
+  google_credenciais:
+    file: ${ARQUIVO_CREDENCIAIS_LOCAL:?Defina ARQUIVO_CREDENCIAIS_LOCAL no arquivo .env}
